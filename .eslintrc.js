@@ -7,13 +7,8 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018
   },
-  extends: [
-    'standard',
-    'plugin:prettier/recommended'
-  ],
-  plugins: [
-    'prettier'
-  ],
+  extends: ['standard', 'plugin:prettier/recommended'],
+  plugins: ['prettier'],
   // add your custom rules here
   rules: {}
 }
