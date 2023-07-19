@@ -5,8 +5,7 @@ const Account = model.Account
 
 // http://localhost:3000/v1/accounts
 router.get('/', (req, res, next) => {
-  res.status(200).json({ message: 'accountsだよ〜ん' })
-  // 404を返すようにする
+  res.status(200).json({ message: 'success!!' })
 })
 
 // 口座情報を表示する

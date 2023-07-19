@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const accountSchema = new Schema(
   {
-    accountID: { type: String, required: true, unique: true },
+    accountID: { type: Schema.Types.ObjectId, required: true, unique: true },
     accountType: { type: String, required: true },
     balance: { type: Number, required: true },
     ownerID: { type: String, required: true }
