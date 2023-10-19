@@ -72,18 +72,21 @@ test.serial('get /accounts/:accountID', async (t) => {
   t.is(res.body._id, t.context.accounts[0]._id.toString())
 })
 
+// GET account id is not found
 test.serial('get account not found', async (t) => {
   const res = await supertest(app).get(`/accounts/${new mongoose.Types.ObjectId()}`)
   t.is(res.status, 404)
   t.deepEqual(res.body, { error: 'NotFound' })
 })
 
+// account bad request
 test.serial('get account id is invalid', async (t) => {
   const res = await supertest(app).get('/accounts/invalid')
   t.is(res.status, 400)
   t.deepEqual(res.body, { error: 'BadRequest' })
 })
 
+// PUT /v1/accounts/${putData.accountID}
 test.serial('put account balance', async (t) => {
   const putData = {
     accountID: user1Id,
@@ -96,6 +99,7 @@ test.serial('put account balance', async (t) => {
   t.is(res.body.balance, putData.balance)
 })
 
+// PUT account id is not found
 test.serial('put account id not found', async (t) => {
   const putData = {
     accountID: user1Id,
@@ -108,6 +112,7 @@ test.serial('put account id not found', async (t) => {
   t.deepEqual(res.body, { error: 'NotFound' })
 })
 
+// PUT account bad request
 test.serial('put account id is invalid', async (t) => {
   const putData = {
     accountID: user1Id,
