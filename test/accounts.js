@@ -16,8 +16,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/accounts', router)
 
-const user1Id = new mongoose.Types.ObjectId()
-const user2Id = new mongoose.Types.ObjectId()
+const account1Id = new mongoose.Types.ObjectId()
+const account2Id = new mongoose.Types.ObjectId()
+const account1Name = 'テスト　タロウ'
+const account2Name = 'テスト　ハナコ'
 const owner1Id = new mongoose.Types.ObjectId()
 const owner2Id = new mongoose.Types.ObjectId()
 
@@ -30,12 +32,22 @@ test.before(async () => {
   })
 })
 
+// {
+//   "_id": ObjectId("..."),  // MongoDBが自動的に生成するユニークなID
+//   "accountID": "1234567890",  // 口座ID
+//   "accountName: "テスト タロウ"
+//   "accountType": "ordinary",  // 口座の種類 (普通口座: ordinary, 貯蓄口座: savings など)
+//   "balance": 5000.00,  // 口座の残高
+//   "ownerID": "abcdefg123"  // 口座の所有者のIDなど
+// }
+
 // テスト用データを作成
 test.beforeEach(async (a) => {
   const accounts = []
   accounts.push(
     await new Account({
-      accountID: user1Id,
+      accountID: account1Id,
+      accountName: account1Name,
       accountType: 'ordinary',
       balance: 1000,
       ownerID: owner1Id
@@ -43,7 +55,8 @@ test.beforeEach(async (a) => {
   )
   accounts.push(
     await new Account({
-      accountID: user2Id,
+      accountID: account2Id,
+      accountName: account2Name,
       accountType: 'ordinary',
       balance: 2000,
       ownerID: owner2Id
@@ -68,7 +81,7 @@ test.serial('get /accounts/:accountID', async (t) => {
   const target = t.context.accounts[0]
   const res = await supertest(app).get(`/accounts/${target.accountID}`)
   t.is(res.status, 200)
-  t.is(Object.keys(res.body).length, 5)
+  t.is(Object.keys(res.body).length, 6)
   t.is(res.body._id, t.context.accounts[0]._id.toString())
 })
 
@@ -89,7 +102,7 @@ test.serial('get account id is invalid', async (t) => {
 // PUT /v1/accounts/${putData.accountID}
 test.serial('put account balance', async (t) => {
   const putData = {
-    accountID: user1Id,
+    accountID: account1Id,
     accountType: 'ordinary',
     balance: 9999,
     ownerID: owner1Id
@@ -102,7 +115,7 @@ test.serial('put account balance', async (t) => {
 // PUT account id is not found
 test.serial('put account id not found', async (t) => {
   const putData = {
-    accountID: user1Id,
+    accountID: account1Id,
     accountType: 'ordinary',
     balance: 9999,
     ownerID: owner1Id
@@ -115,7 +128,7 @@ test.serial('put account id not found', async (t) => {
 // PUT account bad request
 test.serial('put account id is invalid', async (t) => {
   const putData = {
-    accountID: user1Id,
+    accountID: account1Id,
     accountType: 'ordinary',
     balance: 9999,
     ownerID: owner1Id
