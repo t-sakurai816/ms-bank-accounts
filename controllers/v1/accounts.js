@@ -31,6 +31,7 @@ router.post('/', (req, res, next) => {
     try {
       const record = new Account({
         accountID: req.body.accountID,
+        accountName: req.body.accountName,
         accountType: req.body.accountType,
         balance: req.body.balance,
         ownerID: req.body.ownerID
